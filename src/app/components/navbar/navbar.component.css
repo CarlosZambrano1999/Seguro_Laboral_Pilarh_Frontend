@@ -1,0 +1,32 @@
+#cabeza{
+    color: #FFFFFF;
+    background-color: #069DF1;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    left: 0;
+    padding: 10px 0px 10px;
+    font-size: xx-large;
+}
+
+#opciones {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+}
+
+nav, h1 {
+    font-size: medium;
+}
+
+#out{
+    color: #f00;
+}
+
+#out:hover{
+    color: rgb(236, 53, 53);
+}
+
+.opc:hover{
+    color: #28eb35;
+}
