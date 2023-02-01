@@ -30,3 +30,7 @@ nav, h1 {
 .opc:hover{
     color: #28eb35;
 }
+
+.linkActive{
+    color:#0f0;
+}

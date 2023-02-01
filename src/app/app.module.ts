@@ -10,13 +10,19 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HistorialComponent } from './pages/historial/historial.component';
+import { EmpleadosComponent } from './pages/empleados/empleados.component';
+import { DatosComponent } from './pages/datos/datos.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     NavbarComponent,
-    ReclamoComponent
+    ReclamoComponent,
+    HistorialComponent,
+    EmpleadosComponent,
+    DatosComponent
   ],
   imports: [BrowserModule,
     AppRoutingModule,
