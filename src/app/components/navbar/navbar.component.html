@@ -1,24 +1,41 @@
 <nav id="cabeza">
     <div id="opciones">
         <div class="opc">
-            <fa-icon [icon]="faFileLines"></fa-icon>
+            <fa-icon [icon]="faFieLines"></fa-icon>
             <h1> <b>Reclamo</b></h1>
         </div>
         <div class="opc">
-            <fa-icon [icon]="faBookOpen"></fa-icon>
+          <fa-icon [icon]="faFieLines"></fa-icon>
             <h1> <b>Historial</b></h1>
         </div>
         <div class="opc">
-            <fa-icon [icon]="faPeopleGroup"></fa-icon>
+          <fa-icon [icon]="faFieLines"></fa-icon>
             <h1> <b>Empleados</b></h1>
         </div>
         <div class="opc">
-            <fa-icon [icon]="faHome"></fa-icon>
+          <fa-icon [icon]="faFieLines"></fa-icon>
             <h1> <b>Datos</b></h1>
         </div>
         <div id="out">
-            <fa-icon [icon]="faOut"></fa-icon>
+          <fa-icon [icon]="faFieLines"></fa-icon>
             <h1> <b>Salir</b></h1>
         </div>
     </div>
 </nav>
+
+<!-- Modal para Salir >
+<ng-template #modalLogOut let-modal>
+  <div class="modal-header" style="background-color: #326535;">
+    <h4 class="modal-title" id="modal-basic-title" style="color: #fff;">Cerrar Sesión</h4>
+    <button type="button" class="close btn" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <div aria-hidden="true">&times;</div>
+    </button>
+  </div>
+  <div class="modal-body">
+    <h4>¿Esta seguro que desea salir?</h4>
+  </div>
+  <div class="modal-footer">
+    <button id="cancelar" type="button" class="btn btn-outline-dark" (click)="modal.close('Cerrar')">Cerrar</button>
+    <button id="principal" class="btn">Confirmar envío</button>
+  </div>
+</ng-template-->

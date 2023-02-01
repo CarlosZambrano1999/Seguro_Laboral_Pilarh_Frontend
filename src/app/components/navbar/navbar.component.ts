@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { faFileLines, faHome, faBookOpen, faPeopleGroup, faRightFromBracket} from '@fortawesome/free-solid-svg-icons';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { faCoffee, faFileLines } from '@fortawesome/free-solid-svg-icons';
+/*import { NgbModal } from '@ng-bootstrap/ng-bootstrap';*/
 
 @Component({
   selector: 'app-navbar',
@@ -7,13 +8,14 @@ import { faFileLines, faHome, faBookOpen, faPeopleGroup, faRightFromBracket} fro
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
+  faFieLines = faFileLines;
+  constructor() {
+  }
 
-  faFileLines = faFileLines
-  faHome = faHome
-  faBookOpen = faBookOpen
-  faPeopleGroup = faPeopleGroup
-  faOut = faRightFromBracket
-  constructor() { }
+
+  /*salir(modal:any){
+    this.modal.open(modal, {backdrop: 'static', keyboard: false});
+  }*/
 
   ngOnInit(): void {
   }
