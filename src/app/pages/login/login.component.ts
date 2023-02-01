@@ -5,7 +5,6 @@ import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
-import { ModalManager } from 'ngb-modal';
 import { faEye , faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -28,7 +27,7 @@ export class LoginComponent implements OnInit {
   email = new FormControl('',[Validators.required, Validators.pattern(/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/)])
   
   constructor(private http: HttpClient, private cookieService: CookieService,
-              private router: Router, private modal: ModalManager) { }
+              private router: Router) { }
 
   ngOnInit(): void {
   }

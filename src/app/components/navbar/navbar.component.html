@@ -5,37 +5,37 @@
             <h1> <b>Reclamo</b></h1>
         </div>
         <div class="opc">
-          <fa-icon [icon]="faFieLines"></fa-icon>
+          <fa-icon [icon]="faLibro"></fa-icon>
             <h1> <b>Historial</b></h1>
         </div>
         <div class="opc">
-          <fa-icon [icon]="faFieLines"></fa-icon>
+          <fa-icon [icon]="faGrupo"></fa-icon>
             <h1> <b>Empleados</b></h1>
         </div>
         <div class="opc">
-          <fa-icon [icon]="faFieLines"></fa-icon>
+          <fa-icon [icon]="faCasa"></fa-icon>
             <h1> <b>Datos</b></h1>
         </div>
-        <div id="out">
-          <fa-icon [icon]="faFieLines"></fa-icon>
+        <div id="out" (click)="cerrarSesion(modalCerrarSesion)">
+          <fa-icon [icon]="faSalir"></fa-icon>
             <h1> <b>Salir</b></h1>
         </div>
     </div>
 </nav>
 
-<!-- Modal para Salir >
-<ng-template #modalLogOut let-modal>
-  <div class="modal-header" style="background-color: #326535;">
-    <h4 class="modal-title" id="modal-basic-title" style="color: #fff;">Cerrar Sesión</h4>
-    <button type="button" class="close btn" aria-label="Close" (click)="modal.dismiss('Cross click')">
+<!-- Modal Cerrar Sesion -->
+<ng-template #modalCerrarSesion let-modal>
+  <div class="modal-header" style="background-color: #A02A2A;">
+    <h3 class="modal-title" id="modal-basic-title" style="color: #fff">Cerrando Sesión</h3>
+    <button  type="button" class="btn close" (click)="modal.close('Cerrar')" aria-label="Close">
       <div aria-hidden="true">&times;</div>
     </button>
   </div>
   <div class="modal-body">
-    <h4>¿Esta seguro que desea salir?</h4>
+    <h3>¿Está seguro que desea salir?</h3>
   </div>
   <div class="modal-footer">
-    <button id="cancelar" type="button" class="btn btn-outline-dark" (click)="modal.close('Cerrar')">Cerrar</button>
-    <button id="principal" class="btn">Confirmar envío</button>
+    <button id="cancelar" class="btn btn-primary"  (click)="modal.close('Cerrar')">Cancelar</button>
+    <button id="salir" class="btn btn-danger"  (click)="salir()" >Salir</button><br>
   </div>
-</ng-template-->
+</ng-template>
