@@ -13,3 +13,15 @@ body{
         padding: 0;
     }
 }
+
+
+.cuerpo{
+    position: absolute;
+    top: 22%;
+    left: 10%;
+    width: 100%;
+}
+
+.margen{
+    margin: 2%;
+}

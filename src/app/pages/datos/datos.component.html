@@ -1,2 +1,30 @@
 <app-navbar></app-navbar>
-<p>datos works!</p>
+<div class="cuerpo">
+    <div class="row" >
+        <div class="col-6"><h1>Administradores</h1></div>
+        <div class="col-6"><button class="btn btn-success margin">Agregar Administradores</button></div>
+    </div>
+    <div>
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Correo</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let admin of administradores; let i = index">
+                <th scope="row">{{i+1}}</th>
+                <td>{{admin.nombre}}</td>
+                    <td>{{admin.correo}}</td>
+                    <td *ngIf="admin.inactivo==null"><fa-icon [icon]="faEdit"></fa-icon></td>
+                    <td *ngIf="admin.inactivo==null"><fa-icon [icon]="faDel"></fa-icon></td>
+                    <td *ngIf="admin.inactivo!=null"><fa-icon [icon]="faAct"></fa-icon></td>
+              </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
