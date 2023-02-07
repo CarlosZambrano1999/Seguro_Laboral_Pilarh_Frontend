@@ -13,6 +13,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HistorialComponent } from './pages/historial/historial.component';
 import { EmpleadosComponent } from './pages/empleados/empleados.component';
 import { DatosComponent } from './pages/datos/datos.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { DatosComponent } from './pages/datos/datos.component';
     ReclamoComponent,
     HistorialComponent,
     EmpleadosComponent,
-    DatosComponent
+    DatosComponent,
+    SpinnerComponent
   ],
   imports: [BrowserModule,
     AppRoutingModule,

@@ -1,30 +1,272 @@
 <app-navbar></app-navbar>
-<div class="cuerpo">
-    <div class="row" >
-        <div class="col-6"><h1>Administradores</h1></div>
-        <div class="col-6"><button class="btn btn-success margin">Agregar Administradores</button></div>
-    </div>
-    <div>
-        <table class="table table-striped">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Correo</th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let admin of administradores; let i = index">
-                <th scope="row">{{i+1}}</th>
-                <td>{{admin.nombre}}</td>
-                    <td>{{admin.correo}}</td>
-                    <td *ngIf="admin.inactivo==null"><fa-icon [icon]="faEdit"></fa-icon></td>
-                    <td *ngIf="admin.inactivo==null"><fa-icon [icon]="faDel"></fa-icon></td>
-                    <td *ngIf="admin.inactivo!=null"><fa-icon [icon]="faAct"></fa-icon></td>
-              </tr>
-            </tbody>
-        </table>
-    </div>
+
+<div *ngIf="!load">
+  <app-spinner></app-spinner>
 </div>
+
+<div *ngIf="load && resultados==true" class="cuerpo">
+  <div>
+    <div><h1>Aseguradora</h1></div>
+  </div>
+  <div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Aseguradora</th>
+          <th scope="col">Lugar</th>
+          <th scope="col">Empleado</th>
+          <th scope="col">Título</th>
+          <th scope="col">Cargo</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{aseguradora.aseguradora}}</td>
+          <td>{{aseguradora.lugar}}</td>
+          <td>{{aseguradora.empleado}}</td>
+          <td>{{aseguradora.titulo}}</td>
+          <td>{{aseguradora.cargo}}</td>
+          <td title="Editar Aseguradora" (click)="editarAseguradora(aseguradora,modalEditarAseguradora)"><fa-icon [icon]="faEdit"></fa-icon></td>
+        </tr>
+      </tbody>
+    </table>
+  </div><br><br>
+
+  <div>
+    <div><h1>Empresa</h1></div>
+  </div>
+  <div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Empresa</th>
+          <th scope="col">Lugar</th>
+          <th scope="col">Empleado</th>
+          <th scope="col">Título</th>
+          <th scope="col">Cargo</th>
+          <th scope="col">Poliza</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{empresa.empresa}}</td>
+          <td>{{empresa.lugar}}</td>
+          <td>{{empresa.empleado}}</td>
+          <td>{{empresa.titulo}}</td>
+          <td>{{empresa.cargo}}</td>
+          <td>{{empresa.poliza}}</td>
+          <td title="Editar Empresa" (click)="editarEmpresa(empresa,modalEditarEmpresa)"><fa-icon [icon]="faEdit"></fa-icon></td>
+        </tr>
+      </tbody>
+    </table>
+  </div><br><br>
+
+
+  <div class="row" >
+      <div class="col-6"><h1>Administradores</h1></div>
+      <div class="col-6"><button class="btn btn-success margin" (click)="agregarAdministrador(modalAgregarAdministrador)">Agregar Administradores</button></div>
+  </div>
+  <div>
+      <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Correo</th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let admin of administradores; let i = index">
+              <th scope="row">{{i+1}}</th>
+              <td>{{admin.nombre}}</td>
+                  <td>{{admin.correo}}</td>
+                  <td *ngIf="admin.inactivo==null" title="Editar Administrador" (click)="editarAdministrador(admin,modalEditarAdministrador)" ><fa-icon [icon]="faEdit"></fa-icon></td>
+                  <td *ngIf="admin.inactivo==null" title="Actualizar Contraseña" (click)="actPassword(admin,modalActPassword)" ><fa-icon [icon]="faKey"></fa-icon></td>
+                  <td *ngIf="admin.inactivo==null" title="Inhabilitar Administrador" (click)="habAdmin(admin, modalHabAdministrador)"><fa-icon [icon]="faDel"></fa-icon></td>
+                  <td *ngIf="admin.inactivo!=null"title="Habilitar Administrador" (click)="habAdmin(admin, modalHabAdministrador)"><fa-icon [icon]="faAct"></fa-icon></td>
+            </tr>
+          </tbody>
+      </table>
+  </div>
+</div>
+
+
+<!-- Modal Agregar Administrador -->
+<ng-template #modalAgregarAdministrador let-modal>
+  <div class="modal-header" style="background-color: #326535;">
+    <h3 class="modal-title" id="modal-basic-title" style="color: #fff">Agregar Administrador</h3>
+    <button  type="button" class="btn close" (click)="modal.close('Cerrar')" aria-label="Close">
+      <div aria-hidden="true">&times;</div>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="form-control" [formGroup]="newAdministrador" >
+      <div class="form-control">
+        <b>Nombre: </b><input  formControlName="nombre" placeholder="ejm: Juan Perez">
+      </div>
+      <span *ngIf="this.newAdministrador.get('nombre')?.touched && this.newAdministrador.get('nombre')?.invalid">
+        (Los nombres y apellidos no puede contener números)
+      </span>
+      <div class="form-control">
+        <b>Correo: </b>
+        <input formControlName="correo" placeholder="ejm: jperez@pilarh-opdf">
+      </div>
+      <span *ngIf="this.newAdministrador.get('correo')?.touched && this.newAdministrador.get('correo')?.invalid">
+        (Escriba una dirección de correo válida)
+      </span>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button id="cancelar" class="btn btn-secondary"  (click)="modal.close('Cerrar')">Cancelar</button>
+    <button  [ngClass]="{'disabled': newAdministrador.invalid, 'enabled': newAdministrador.valid}" class="btn btn-primary" (click)="guardarAdmin(newAdministrador.value)">Ingresar</button> <br>
+  </div>
+</ng-template>
+
+<!-- Modal Editar Administrador -->
+<ng-template #modalEditarAdministrador let-modal>
+  <div class="modal-header" style="background-color: #326535;">
+    <h3 class="modal-title" id="modal-basic-title" style="color: #fff">Editar Administrador</h3>
+    <button  type="button" class="btn close" (click)="modal.close('Cerrar')" aria-label="Close">
+      <div aria-hidden="true">&times;</div>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="form-control" [formGroup]="editAdministrador" >
+      <div class="form-control">
+        <b>Nombre: </b><input  formControlName="nombre" >
+      </div>
+      <span *ngIf="this.editAdministrador.get('nombre')?.invalid">
+        (Los nombres y apellidos no puede contener números)
+      </span>
+      <div class="form-control">
+        <b>Correo: </b><input formControlName="correo" >
+      </div>
+      <span *ngIf="this.editAdministrador.get('correo')?.invalid">
+        (Escriba una dirección de correo válida)
+      </span>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button id="cancelar" class="btn btn-secondary"  (click)="modal.close('Cerrar')">Cancelar</button>
+    <button [ngClass]="{'disabled': (editAdministrador.invalid || objCompare(editAdministrador.value, datosAdmin)), 'enabled': (editAdministrador.valid ||  editAdministrador.touched)}" id="principal" class="btn btn-primary"  (click)="confirmarEdicion(editAdministrador.value)" >Confirmar</button><br>
+  </div>
+</ng-template>
+
+<!-- Modal Habilitar Administrador -->
+<ng-template #modalHabAdministrador let-modal>
+  <div class="modal-header" style="background-color: #326535;">
+    <h3 *ngIf="habilitado.inactivo==null" class="modal-title" id="modal-basic-title" style="color: #fff">Inhabilitar Empleado</h3>
+    <h3 *ngIf="habilitado.inactivo!=null" class="modal-title" id="modal-basic-title" style="color: #fff">Habilitar Empleado</h3>
+    <button  type="button" class="btn close" (click)="modal.close('Cerrar')" aria-label="Close">
+      <div aria-hidden="true">&times;</div>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-control"><b>Nombre: </b>{{habilitado.nombre}}</div>
+    <div class="form-control"><b>Correo: </b>{{habilitado.correo}}</div>
+  </div>
+  <div class="modal-footer">
+    <button id="cancelar" class="btn btn-secondary"  (click)="modal.close('Cerrar')">Cancelar</button>
+    <button *ngIf="habilitado.inactivo==null" id="principal" class="btn btn-primary"  (click)="inhabilitarAdministrador(habilitado)" >Inhabilitar</button><br>
+    <button *ngIf="habilitado.inactivo!=null" id="principal" class="btn btn-primary"  (click)="habilitarAdministrador(habilitado)" >Habilitar</button><br>
+  </div>
+</ng-template>
+
+
+<!-- Modal Editar Aseguradora -->
+<ng-template #modalEditarAseguradora let-modal>
+  <div class="modal-header" style="background-color: #326535;">
+    <h3 class="modal-title" id="modal-basic-title" style="color: #fff">Editar Aseguradora</h3>
+    <button  type="button" class="btn close" (click)="modal.close('Cerrar')" aria-label="Close">
+      <div aria-hidden="true">&times;</div>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="form-control" [formGroup]="editAseguradora" >
+      <div class="form-control">
+        <b>Aseguradora </b><input  formControlName="aseguradora">
+      </div>
+      <div class="form-control">
+        <b>Lugar: </b><input formControlName="lugar" >
+      </div>
+      <div class="form-control">
+        <b>Empleado: </b><input formControlName="empleado" >
+      </div>
+      <div class="form-control">
+        <b>Título: </b><input formControlName="titulo">
+      </div>
+      <div class="form-control">
+        <b>Cargo: </b><input formControlName="cargo" >
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button id="cancelar" class="btn btn-secondary"  (click)="modal.close('Cerrar')">Cancelar</button>
+    <button [ngClass]="{'disabled': (editAseguradora.invalid || objCompadre(editAseguradora.value, insurance)), 'enabled': (editAseguradora.valid ||  editAseguradora.touched)}" id="principal" class="btn btn-primary"  (click)="confirmarInsurance(editAseguradora.value)" >Confirmar</button><br>
+  </div>
+</ng-template>
+
+<!-- Modal Editar Empresa -->
+<ng-template #modalEditarEmpresa let-modal>
+  <div class="modal-header" style="background-color: #326535;">
+    <h3 class="modal-title" id="modal-basic-title" style="color: #fff">Editar Empresa</h3>
+    <button  type="button" class="btn close" (click)="modal.close('Cerrar')" aria-label="Close">
+      <div aria-hidden="true">&times;</div>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="form-control" [formGroup]="editEmpresa" >
+      <div class="form-control">
+        <b>Empresa </b><input  formControlName="empresa">
+      </div>
+      <div class="form-control">
+        <b>Lugar: </b><input formControlName="lugar" >
+      </div>
+      <div class="form-control">
+        <b>Empleado: </b><input formControlName="empleado" >
+      </div>
+      <div class="form-control">
+        <b>Título: </b><input formControlName="titulo">
+      </div>
+      <div class="form-control">
+        <b>Cargo: </b><input formControlName="cargo" >
+      </div>
+      <div class="form-control">
+        <b>Poliza: </b><input formControlName="poliza" >
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button id="cancelar" class="btn btn-secondary"  (click)="modal.close('Cerrar')">Cancelar</button>
+    <button [ngClass]="{'disabled': (editEmpresa.invalid || objCompadre(editEmpresa.value, empty)), 'enabled': (editEmpresa.valid ||  editEmpresa.touched)}" id="principal" class="btn btn-primary"  (click)="confirmarEmpty(editEmpresa.value)" >Confirmar</button><br>
+  </div>
+</ng-template>
+
+<!-- Modal Actualizar contraseña  -->
+<ng-template #modalActPassword let-modal>
+  <div class="modal-header" style="background-color: #326535;">
+    <h3 class="modal-title" id="modal-basic-title" style="color: #fff">Actualizar Contraseña</h3>
+    <button  type="button" class="btn close" (click)="modal.close('Cerrar')" aria-label="Close">
+      <div aria-hidden="true">&times;</div>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="form-control" [formGroup]="sesion" >
+      <div class="form-control">
+        <b>Contraseña: </b><input [type]="fieldTextType ? 'text' : 'password'" formControlName="password" placeholder="Contraseña">
+      </div>
+      <div class="form-control">
+        <b>Confirmar Contraseña: </b>
+        <input [type]="fieldTextType2 ? 'text' : 'password'" formControlName="confirmPassword" placeholder="Confirmar contraseña">
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button id="cancelar" class="btn btn-secondary"  (click)="modal.close('Cerrar')">Cancelar</button>
+    <button  [ngClass]="{'disabled': sesion.invalid, 'enabled': sesion.valid}" class="btn btn-primary" (click)="guardarPassword(sesion.value)">Actualizar</button> <br>
+  </div>
+</ng-template>
