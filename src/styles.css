@@ -16,9 +16,8 @@ body{
 
 
 .cuerpo{
-    position:absolute;
-    top: 20%;
-    left: 10%;
+    position: static;
+    margin-top: 15%;
     width: 100%;
 }
 
