@@ -1,2 +1,9 @@
 <app-navbar></app-navbar>
-<div class="cuerpo"> <p>empleados works!</p> </div>
+
+<div class="cuerpo">
+    <div><button class="btn btn-info" routerLink="/employees/branch" routerLinkActive="linkActive">Agencias</button>
+        <button class="btn btn-info" routerLink="/employees/users" routerLinkActive="linkActive">Empleados</button>
+    </div>
+</div>
+
+<router-outlet></router-outlet>

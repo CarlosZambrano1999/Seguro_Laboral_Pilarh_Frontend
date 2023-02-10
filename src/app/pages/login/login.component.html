@@ -1,21 +1,23 @@
-<div class="background"></div>
-<div class="card">
-    <img src="../../../assets/img/logo.png" alt="" class="logo">
-    <h2>Inicio de Sesión</h2>
-    <form [formGroup]="sesion" class="form">
-        <input formControlName="correo" type="email" placeholder="Correo">
-        <div>
-            <input formControlName="password" [type]="fieldTextType ? 'text' : 'password'" placeholder="*******">
-            <fa-icon *ngIf="!fieldTextType" [icon]="faEye" (click)="toggleFieldTextType()" > </fa-icon>
-            <fa-icon *ngIf="fieldTextType" [icon]="faEyeSlash" (click)="toggleFieldTextType()" > </fa-icon>
-        </div>
-        <button  [ngClass]="{'disabled': sesion.invalid, 'enabled': sesion.valid}" class="btn ingresar" (click)="login()">Ingresar</button>        
-    </form>
-    <footer>
-        <button>Consultar</button>
-    </footer>
-</div>
+<body id="tren">
+    <div class="background"></div>
+    <div class="card">
+        <img src="../../../assets/img/logo.png" alt="" class="logo">
+        <h2>Inicio de Sesión</h2>
+        <form [formGroup]="sesion" class="form">
+            <input formControlName="correo" type="email" placeholder="Correo">
+            <div>
+                <input formControlName="password" [type]="fieldTextType ? 'text' : 'password'" placeholder="*******">
+                <fa-icon *ngIf="!fieldTextType" [icon]="faEye" (click)="toggleFieldTextType()" > </fa-icon>
+                <fa-icon *ngIf="fieldTextType" [icon]="faEyeSlash" (click)="toggleFieldTextType()" > </fa-icon>
+            </div>
+            <button  [ngClass]="{'disabled': sesion.invalid, 'enabled': sesion.valid}" class="btn ingresar" (click)="login()">Ingresar</button>        
+        </form>
+        <footer>
+            <button>Consultar</button>
+        </footer>
+    </div>
 
-<footer>
-    <h6> © {{this.anio}} - PILARH-OPDF Seguro de empleados</h6> 
-</footer>
+    <footer>
+        <h6> © {{this.anio}} - PILARH-OPDF Seguro de empleados</h6> 
+    </footer>
+</body>

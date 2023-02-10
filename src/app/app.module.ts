@@ -14,6 +14,9 @@ import { HistorialComponent } from './pages/historial/historial.component';
 import { EmpleadosComponent } from './pages/empleados/empleados.component';
 import { DatosComponent } from './pages/datos/datos.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
+import { AgenciasComponent } from './pages/empleados/agencias/agencias.component';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { UsuariosComponent } from './pages/empleados/usuarios/usuarios.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +27,9 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
     HistorialComponent,
     EmpleadosComponent,
     DatosComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    AgenciasComponent,
+    UsuariosComponent
   ],
   imports: [BrowserModule,
     AppRoutingModule,
@@ -33,6 +38,7 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
     HttpClientModule,
     FontAwesomeModule,
     CommonModule,
+    NgxPaginationModule
   ],
   providers: [],
   bootstrap: [AppComponent]

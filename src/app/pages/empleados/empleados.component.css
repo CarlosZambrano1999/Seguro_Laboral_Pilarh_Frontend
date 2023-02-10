@@ -1,0 +1,35 @@
+table{
+    width: max-content;
+}
+
+input{
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 2px solid #326535;
+    background-color: none;
+    font-family: montse-ligth;
+    width:inherit;
+    color: rgb(56, 53, 53);
+    margin-right: 10px;
+    margin-top: 10px;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+}
+
+.rowi{
+    display: grid;
+    place-items: center;
+}
+
+button{
+    margin-left: 30px;
+}
+
+.linkActive{
+    color:#0f0;
+}
+

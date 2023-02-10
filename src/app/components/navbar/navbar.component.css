@@ -1,9 +1,9 @@
 #cabeza{
     color: #FFFFFF;
     background-color: #069DF1;
-    position:fixed;
-    top: 0;
     width: 100%;
+    position: fixed;
+    top: 0;
     left: 0;
     padding: 10px 0px 10px;
     font-size: xx-large;

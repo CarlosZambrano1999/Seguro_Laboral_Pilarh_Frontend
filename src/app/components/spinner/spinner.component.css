@@ -1,4 +1,7 @@
 .loader{
+    position: relative;
+    margin-top: 20%;
+    margin-left: 50%;
     width: 120px;
     height: 75px;
     display: flex;

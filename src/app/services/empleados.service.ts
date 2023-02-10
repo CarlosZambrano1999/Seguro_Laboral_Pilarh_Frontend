@@ -18,12 +18,16 @@ export class EmpleadosService {
   }
 
   //Obtener empleado por codigo
-
   obtenerUsuario():Observable<any>{
     var header = {
       headers: new HttpHeaders()
         .set('Authorization',  `Bearer ${this.authService.getToken()}`)
     }
     return this.http.get(urlServer + `/usuario`, header);
+  }
+
+  //Obtener agencias
+  obtenerAgencias():Observable<any>{
+    return this.http.get(this.urlServer + '/agencia', {})
   }
 }
