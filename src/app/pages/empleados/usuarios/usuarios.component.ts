@@ -21,9 +21,12 @@ export class UsuariosComponent implements OnInit {
   agencias : any = [];
   seleccion : any = [];
   empleados: any = [];
+  pacientes: any = [];
+  resultPacientes : boolean = true;
   datosEmpleado : any = {};
   habilitado : any = {};
   urlServer = urlServer;
+  id_Empleado : string = '';
 
   //iconos
   faEdit  =  faPen;
@@ -54,6 +57,10 @@ export class UsuariosComponent implements OnInit {
     id_agencia : new FormControl('')
   })
 
+  newPaciente = new FormGroup({
+    nombre: new FormControl('', [Validators.required])
+  })
+
 
   constructor(private empleadoService: EmpleadosService, public modal: NgbModal,
               private authService: AuthService, private http: HttpClient) { }
@@ -62,7 +69,6 @@ export class UsuariosComponent implements OnInit {
     this.obtenerAgencias();
     this.obtenerEmpleados();
     this.loading();
-    console.log('filtro', this.filtro.value)
   }
 
   //Funcion para mostrar spinner mientras cargan datos
@@ -282,19 +288,77 @@ export class UsuariosComponent implements OnInit {
     });
   }
 
-    //funcion para filtrar empleados
-    filtrarEmpleados(){
-      this.http.post(this.urlServer + `/empleado/filtrar`, this.filtro.value).subscribe( (res:any)=>{
-        try {
-          if(res.data.length>0){
-            this.empleados = res.data;
-            this.resultados = true;
-          }else{
-            this.resultados = false;
-          }
-        } catch (error) {
-          console.log(error);
+  //funcion para filtrar empleados
+  filtrarEmpleados(){
+    this.http.post(this.urlServer + `/empleado/filtrar`, this.filtro.value).subscribe( (res:any)=>{
+      try {
+        if(res.data.length>0){
+          this.empleados = res.data;
+          this.resultados = true;
+        }else{
+          this.resultados = false;
         }
-      });
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  }
+
+  //función para obtener pacientes
+  obtenerPacientes(id_empleado :any){
+    this.empleadoService.obtenerPacientes(id_empleado).subscribe( res=>{
+      try {
+        if(res.data.length>0){
+          this.pacientes = res.data;
+          this.resultPacientes = true;
+        }else{
+          this.resultPacientes = false;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  }
+
+  //Funcion que muestra modal para habilitar o inhabilitar un usuario
+  modPacientes(emp : any,modal : any){
+    this.id_Empleado=emp.id_usuario;
+    this.obtenerPacientes(emp.id_usuario);
+    this.modal.open(modal, {backdrop: 'static', keyboard: false});
+  }
+
+  //crear pacientes
+  crearPaciente(){
+    var header = {
+      headers: new HttpHeaders()
+        .set('Authorization',  `Bearer ${this.authService.getToken()}`)
     }
+    this.http.post(urlServer + `/empleado/crearPaciente/${this.id_Empleado}`, this.newPaciente.value, header).subscribe( (res:any)=>{
+      try {
+        if(res.message=='Successfully'){
+          Swal.fire({
+            icon: 'success',
+            title: 'Exitoso',
+            text: 'El paciente ha sido creado',
+            width: 'auto',
+            showConfirmButton: false,
+            timer: 1500
+          });
+          this.obtenerPacientes(this.id_Empleado);
+          this.newEmpleado.reset();
+        }else{
+          const mensaje = res.message;
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: mensaje,
+            width: 'auto',
+            showConfirmButton: true
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  }
 }

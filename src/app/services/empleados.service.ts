@@ -17,7 +17,7 @@ export class EmpleadosService {
     return this.http.get(this.urlServer + '/empleado', {});
   }
 
-  //Obtener empleado por codigo
+  //Obtener empleado 
   obtenerUsuario():Observable<any>{
     var header = {
       headers: new HttpHeaders()
@@ -30,4 +30,14 @@ export class EmpleadosService {
   obtenerAgencias():Observable<any>{
     return this.http.get(this.urlServer + '/agencia', {})
   }
+
+  //Obtener pacientes
+  obtenerPacientes( id_empleado : any):Observable<any>{
+    var header = {
+      headers: new HttpHeaders()
+        .set('Authorization',  `Bearer ${this.authService.getToken()}`)
+    }
+    return this.http.get(urlServer + `/empleado/pacientes/${id_empleado}`, header);
+  }
+
 }

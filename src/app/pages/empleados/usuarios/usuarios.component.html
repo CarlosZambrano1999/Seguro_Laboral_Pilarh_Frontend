@@ -43,7 +43,7 @@
                 <th scope="row">{{us.certificado}}</th>
                 <td>{{us.nombre}}</td>
                 <td>{{us.correo}}</td>
-                <td *ngIf="us.inactivo==null"><fa-icon [icon]="faGente"></fa-icon></td>
+                <td *ngIf="us.inactivo==null"><fa-icon [icon]="faGente" (click)="modPacientes(us, modalPacientes)"></fa-icon></td>
                 <td *ngIf="us.inactivo==null" title="Editar Usuario" (click)="editarEmpleado(us, modalEditarEmpleado)"><fa-icon [icon]="faEdit"></fa-icon></td>
                 <td *ngIf="us.inactivo==null" title="Inhabilitar Usuaurio" (click)="habEmpleado(us, modalHabEmpleado)"><fa-icon [icon]="faDel"></fa-icon></td>
                 <td *ngIf="us.inactivo!=null"title="Habilitar Usuario"(click)="habEmpleado(us, modalHabEmpleado)"><fa-icon [icon]="faAct"></fa-icon></td>
@@ -159,5 +159,44 @@
       <button id="cancelar" class="btn btn-secondary"  (click)="modal.close('Cerrar')">Cancelar</button>
       <button *ngIf="habilitado.inactivo==null" id="principal" class="btn btn-primary"  (click)="inhabilitarEmpleado(habilitado)" >Inhabilitar</button><br>
       <button *ngIf="habilitado.inactivo!=null" id="principal" class="btn btn-primary"  (click)="habilitarEmpleado(habilitado)" >Habilitar</button><br>
+    </div>
+</ng-template>
+
+
+<!-- Modal MostrarPacientes -->
+<ng-template #modalPacientes let-modal>
+    <div class="modal-header" style="background-color: #326535;">
+      <h1 class="modal-title" id="modal-basic-title" style="color: #fff">Pacientes</h1>
+      <button  type="button" class="btn close" (click)="modal.close('Cerrar')" aria-label="Close">
+        <div aria-hidden="true">&times;</div>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="row" [formGroup]="newPaciente">
+            <div class="col-6"><input type="text" placeholder="Ejm Juan Perez" formControlName="nombre" ></div>
+            <div class="col-6"><button class="btn btn-primary" (click)="crearPaciente()">Agregar Paciente</button></div>
+        </div>
+        <div *ngIf="resultPacientes==false">
+            No hay pacientes agregados
+        </div>
+        <table *ngIf="resultPacientes==true" class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let pac of pacientes">
+                <td>{{pac.paciente}}</td>
+                <td title="Editar Usuario"><fa-icon [icon]="faEdit"></fa-icon></td>
+                <td><fa-icon [icon]="faDel"></fa-icon></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+      <button id="cancelar" class="btn btn-secondary"  (click)="modal.close('Cerrar')">Cancelar</button>
     </div>
 </ng-template>
