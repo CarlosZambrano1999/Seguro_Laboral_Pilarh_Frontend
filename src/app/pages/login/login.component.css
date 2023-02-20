@@ -158,8 +158,6 @@ footer > button:hover{
 
 .logo{
     width: 25%;
-    height: 100%;
-    display: block;
     margin: auto;
 }
 
@@ -168,4 +166,8 @@ footer > button:hover{
     padding: 0px;
     text-align: center;
     height: min-content;
+}
+
+fa-icon{
+    margin-left: 5px;
 }

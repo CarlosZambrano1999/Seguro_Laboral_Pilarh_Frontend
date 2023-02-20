@@ -188,14 +188,19 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let pac of pacientes">
-                <td>{{pac.paciente}}</td>
-                <td title="Editar Usuario"><fa-icon [icon]="faEdit"></fa-icon></td>
-                <td><fa-icon [icon]="faDel"></fa-icon></td>
-            </tr>
+              <tr *ngFor="let pac of pacientes;">
+                  <td>{{pac.paciente}}</td>
+                  <td title="Editar Paciente" (click)="mostrarEdit(pac)"><fa-icon [icon]="faEdit"></fa-icon></td>
+                  <td><fa-icon [icon]="faDel" (click)="deletePaciente(pac)"></fa-icon></td>
+              </tr>
             </tbody>
         </table>
+        <div *ngIf="edic==true" class="row" [formGroup]="editPaciente">
+          <input class="col-6" formControlName="paciente"> 
+          <button class="col-6 btn btn-primary actualizar" (click)="editarPaciente()">Actualizar</button>
+        </div>
     </div>
+
     <div class="modal-footer">
       <button id="cancelar" class="btn btn-secondary"  (click)="modal.close('Cerrar')">Cancelar</button>
     </div>

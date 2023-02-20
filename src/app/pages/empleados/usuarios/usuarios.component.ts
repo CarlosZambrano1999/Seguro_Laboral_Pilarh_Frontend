@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { faPen, faTrash, faCircleArrowUp, faPeopleGroup, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/services/auth.service';
@@ -27,6 +27,7 @@ export class UsuariosComponent implements OnInit {
   habilitado : any = {};
   urlServer = urlServer;
   id_Empleado : string = '';
+  edic : boolean = false;
 
   //iconos
   faEdit  =  faPen;
@@ -60,6 +61,13 @@ export class UsuariosComponent implements OnInit {
   newPaciente = new FormGroup({
     nombre: new FormControl('', [Validators.required])
   })
+
+
+  editPaciente = new FormGroup({
+      id_usuario : new FormControl('', [Validators.required]),
+      id_paciente : new FormControl('', [Validators.required]),
+      paciente : new FormControl('', [Validators.required]) 
+    })
 
 
   constructor(private empleadoService: EmpleadosService, public modal: NgbModal,
@@ -282,7 +290,7 @@ export class UsuariosComponent implements OnInit {
         }
         this.modal.dismissAll();
         this.obtenerEmpleados();
-      } catch (error) {
+      } catch (error) {                                           
         console.log(error);
       }
     });
@@ -325,6 +333,7 @@ export class UsuariosComponent implements OnInit {
     this.id_Empleado=emp.id_usuario;
     this.obtenerPacientes(emp.id_usuario);
     this.modal.open(modal, {backdrop: 'static', keyboard: false});
+    console.log('Pac', this.pacientes);
   }
 
   //crear pacientes
@@ -361,4 +370,88 @@ export class UsuariosComponent implements OnInit {
       }
     });
   }
+
+  //editarPaciente
+  editarPaciente(){
+    var header = {
+      headers: new HttpHeaders()
+        .set('Authorization',  `Bearer ${this.authService.getToken()}`)
+    }
+    this.http.post(urlServer + `/empleado/editarPaciente`, this.editPaciente.value, header).subscribe( (res:any)=>{
+      try {
+        if(res.message=='Successfully'){
+          Swal.fire({
+            icon: 'success',
+            title: 'Exitoso',
+            text: 'El paciente ha sido editado',
+            width: 'auto',
+            showConfirmButton: false,
+            timer: 1500
+          });
+          this.obtenerPacientes(this.id_Empleado);
+          this.edic=false;
+          this.editEmpleado.reset();
+        }else{
+          const mensaje = res.message;
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: mensaje,
+            width: 'auto',
+            showConfirmButton: true
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  }
+
+  //habilita para editar paciente
+  mostrarEdit(paciente:any){
+    this.editPaciente.get('id_usuario')?.setValue(paciente.fk_id_usuario);
+    this.editPaciente.get('paciente')?.setValue(paciente.paciente);
+    this.editPaciente.get('id_paciente')?.setValue(paciente.id_paciente);
+    this.edic = true;
+  }
+
+  //Inhabilita un Paciente
+  deletePaciente(paciente: any){
+    var header = {
+      headers: new HttpHeaders()
+        .set('Authorization',  `Bearer ${this.authService.getToken()}`)
+    }
+    this.editPaciente.get('id_usuario')?.setValue(paciente.fk_id_usuario);
+    this.editPaciente.get('id_paciente')?.setValue(paciente.id_paciente);
+    this.http.post(urlServer + `/empleado/deletePaciente`, this.editPaciente.value, header).subscribe( (res:any)=>{
+      try {
+        if(res.message=='Successfully'){
+          Swal.fire({
+            icon: 'success',
+            title: 'Exitoso',
+            text: 'El paciente ha sido dado de baja',
+            width: 'auto',
+            showConfirmButton: false,
+            timer: 1500
+          });
+          this.obtenerPacientes(this.id_Empleado);
+          this.edic=false;
+          this.editEmpleado.reset();
+        }else{
+          const mensaje = res.message;
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: mensaje,
+            width: 'auto',
+            showConfirmButton: true
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  }
+ 
+  
 }

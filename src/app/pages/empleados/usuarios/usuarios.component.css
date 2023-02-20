@@ -39,4 +39,8 @@ select{
     cursor: pointer;
     overflow: hidden;
     outline: none;
-  }
+}
+
+.actualizar{
+    width: 100px;
+}
