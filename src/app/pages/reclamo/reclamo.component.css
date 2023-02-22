@@ -1,0 +1,29 @@
+.division{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    align-items: stretch;
+    align-content: stretch;
+}
+
+
+input, select{
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 2px solid #326535;
+    background-color: none;
+    color: black;
+    font-size: 14px;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+    margin-right: 10px;
+}
+
+h6{
+    display: inline;
+}

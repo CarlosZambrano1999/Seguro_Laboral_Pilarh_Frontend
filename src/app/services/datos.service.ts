@@ -17,4 +17,8 @@ export class DatosService {
   obtenerAseguradora():Observable<any>{
     return this.http.get(this.urlServer + '/datos/aseguradora', {});
   }
+
+  obtenerTipos():Observable<any>{
+    return this.http.get(this.urlServer + '/estado/tipo', {});
+  }
 }

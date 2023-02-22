@@ -40,4 +40,13 @@ export class EmpleadosService {
     return this.http.get(urlServer + `/empleado/pacientes/${id_empleado}`, header);
   }
 
+  //Obtener Empleados por agencia
+  obtenerEmpleadosxAgencia( id_agencia : any):Observable<any>{
+    var header = {
+      headers: new HttpHeaders()
+        .set('Authorization',  `Bearer ${this.authService.getToken()}`)
+    }
+    return this.http.get(urlServer + `/empleado/agencia/${id_agencia}`, header);
+  }
+
 }

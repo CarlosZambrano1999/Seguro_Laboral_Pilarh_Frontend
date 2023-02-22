@@ -1,1 +1,68 @@
 <app-navbar></app-navbar>
+
+<div class="cuerpo">
+    <div [formGroup]="empleado">
+        <div class="row">
+            <div class="col-3"><h4><b>Agencia:</b></h4></div>
+            <div class="col-3">
+                <select formControlName="agencia" (change)="obtenerEmpleados()">
+                    <option value="" selected>Agencias</option>
+                    <option *ngFor="let agencia of agencias" value="{{agencia.id_agencia}}"> {{agencia.nombre}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3"><h4><b>Empleado:</b></h4></div>
+            <div class="col-3">
+                <select  formControlName="empleado" (change)="obtenerPacientes()">
+                    <option value="" selected>Empleados</option>
+                    <option *ngFor="let emp of empleados" value="{{emp.id_usuario}}"> {{emp.nombre}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3"><h4><b>Paciente:</b></h4></div>
+            <div class="col-3">
+                <select  formControlName="paciente" >
+                    <option value="" selected>Pacientes</option>
+                    <option *ngFor="let pac of pacientes" value="{{pac.id_paciente}}"> {{pac.paciente}}</option>
+                </select>
+            </div>
+        </div> <br>
+        <div>
+            <h4><b>Documentos Monetarios </b></h4>
+            <div class="row" [formGroup]="monetarios">
+                <select class="col-2" formControlName="tipo" >
+                    <option value="" selected>Tipo</option>
+                    <option *ngFor="let tip of tipos" value="{{tip.id_tipo}}"> {{tip.tipo}}</option>
+                </select>
+                <input class="col-2" type="text" placeholder="Número" formControlName="numero" >
+                <input class="col-2" type="text" placeholder="Descripcion" formControlName="descripcion">
+                <input class="col-2" type="number" placeholder="Valor" formControlName="valor" >
+                <button class="col-2 btn btn-success" (click)="addDocMoney()">Agregar</button>
+            </div> <br>
+            <div *ngIf="this.doc_money.length>0">
+                <div *ngFor="let doc_m of doc_money; let i = index">
+                    1 <h6 *ngIf="this.doc_m.tipo==1">Recibo</h6> <h6 *ngIf="this.doc_m.tipo==2">Factura</h6> N° {{doc_m.numero}} {{doc_m.descripcion}} L {{doc_m.valor}} <fa-icon (click)="deleteMonetario(i)" [icon]="faDel" ></fa-icon> 
+                </div>               
+            </div>
+        </div>
+    </div> <br>
+    <div>
+        <h4><b>Documentos Referenciales </b></h4>
+        <div class="row" [formGroup]="referenciales">
+            <input class="col-2" type="number" placeholder="Cantidad" formControlName="cantidad" >
+            <input class="col-2" type="text" placeholder="Descripcion" formControlName="descripcion">
+            <button class="col-2 btn btn-success" (click)="addDocReferencial()">Agregar</button>
+        </div> <br>
+        <div *ngIf="this.doc_referencial.length>0">
+            <div *ngFor="let doc_r of doc_referencial; let i = index">
+                {{doc_r.cantidad}} {{doc_r.descripcion}} <fa-icon (click)="deleteReferencial(i)" [icon]="faDel" ></fa-icon> 
+            </div>               
+        </div>
+    </div><br>
+    <div style="text-align: center;">
+        <button [ngClass]="{'disabled': empleado.invalid || this.doc_money.length==0, 'enabled': empleado.valid && this.doc_referencial.length>0 }" class="btn btn-primary" (click)="procesar()">Procesar</button>
+    </div>
+
+</div>
