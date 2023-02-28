@@ -49,4 +49,9 @@ export class EmpleadosService {
     return this.http.get(urlServer + `/empleado/agencia/${id_agencia}`, header);
   }
 
+  //obtenerEmpleado
+  obtenerEmpleado(correo: any):Observable<any>{
+    return this.http.get(urlServer + `/empleado/datos/${correo}`, {});
+  }
+
 }

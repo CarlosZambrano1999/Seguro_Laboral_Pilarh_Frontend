@@ -6,6 +6,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
 import { faEye , faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-login',
@@ -24,10 +25,12 @@ export class LoginComponent implements OnInit {
     password: new FormControl('', [Validators.required])
   });
 
+  correo = new FormControl('', [Validators.required]);
+
   email = new FormControl('',[Validators.required, Validators.pattern(/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/)])
   
   constructor(private http: HttpClient, private cookieService: CookieService,
-              private router: Router) { }
+              private router: Router, public modal: NgbModal) { }
 
   ngOnInit(): void {
   }
@@ -68,6 +71,41 @@ export class LoginComponent implements OnInit {
     }) 
   }
 
+  openModal(modal: any){
+    this.modal.open(modal, {backdrop: 'static', keyboard: false});
+  }
+  
+  consultar(){
+    this.http.post(urlServer + `/usuario/consultar/${this.correo.value}`, {}).subscribe((res:any) =>{
+      try {
+        if(res.message=='succesfully'){
+          Swal.fire({
+            icon: 'success',
+            title: 'Exitoso',
+            text: 'Por favor revise su correo electrónico',
+            width: 'auto',
+            showConfirmButton: true
+          });
+          const dateNow = new Date();
+          dateNow.setHours(dateNow.getHours() + 10);
+          this.cookieService.set('myClaims', this.correo.value!, dateNow);
+          this.correo.reset();
+          this.modal.dismissAll();
+        }else{
+          const mensaje = res.message;
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: mensaje,
+            width: 'auto',
+            showConfirmButton: true
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    })
+  }
 
   toggleFieldTextType() {
     this.fieldTextType = !this.fieldTextType;

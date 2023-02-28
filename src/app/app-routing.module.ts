@@ -11,6 +11,7 @@ import { HistorialComponent } from './pages/historial/historial.component';
 import { InformeComponent } from './pages/informe/informe.component';
 import { LoginComponent } from './pages/login/login.component';
 import { ReclamoComponent } from './pages/reclamo/reclamo.component';
+import { UsuarioReclamoComponent } from './pages/usuario-reclamo/usuario-reclamo.component';
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent, canActivate:[SessionGuard], data:{title:'Seguros Login'}},
@@ -22,6 +23,7 @@ const routes: Routes = [
   ]},
   {path: 'data', component: DatosComponent, canActivate:[AuthGuard, AdminGuard], data:{title:'Seguros Datos'}},
   {path: 'report/:id_reclamo', component: InformeComponent, data:{title:'Detalles de Reclamo'}},
+  {path: 'myClaims', component: UsuarioReclamoComponent, data:{title:'Detalles de Reclamo'}},
   {path: '', redirectTo: 'login', pathMatch: 'full' },
   {path: '**', redirectTo: 'login' }
 ];

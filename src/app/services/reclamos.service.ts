@@ -25,4 +25,8 @@ export class ReclamosService {
   obtenerReembolso(id_reclamo : any):Observable<any>{
     return this.http.get(this.urlServer + `/reclamo/obtener/reembolso/${id_reclamo}`, {});
   }
+
+  obtenerReclamosXUsuario(id_empleado: any){
+    return this.http.get(this.urlServer + `/reclamo/obtenerUsuario/${id_empleado}`, {});
+  }
 }

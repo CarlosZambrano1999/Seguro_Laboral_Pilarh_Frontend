@@ -1,8 +1,10 @@
+
 .reclamo{
     width: 1240px;
     height: 1204px;
     font-size: 18px;
     background-color: #fff;
+    position:static;
 }
 
 .encabezado{
@@ -13,18 +15,18 @@
 
 .pie{
     width: 1240px;
-    position:fixed;
-    bottom: 0;
-    left: 0;
+    bottom: 2%;
 }
 
 .mensaje{
-    margin-left: 7%;
+    padding-left: 7%;
+    height: 90%;
+    background-color: #fff;
 }
 
 
 .firma{
-    position: fixed;
-    bottom: 10%;
-    margin-left: 7%;
+    padding-left: 7%;
+    bottom: 12%;
+    background-color: #fff;
 }

@@ -1,0 +1,99 @@
+<div *ngIf="!load">
+    <app-spinner></app-spinner>
+</div>
+
+<div *ngIf="load" class="cuerpo">
+    <div class="row" >
+        <div class="col-6"><h1>Reclamos</h1></div>
+    </div>
+    <div *ngIf="resultados==false">
+        <br><br><br>
+        <h5>Aún no tienes ningun reclamo nuevo</h5>
+    </div>
+    <div *ngIf="resultados==true">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Empleado</th>
+                <th scope="col">Paciente</th>
+                <th scope="col">Valor de reclamo</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Estado</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr [ngClass]="{'nuevo': reclamo.id_estado==1, 'enviado': reclamo.id_estado==2, 'completo': reclamo.id_estado==3}" 
+                *ngFor="let reclamo of reclamos
+                            | paginate: { id: 'foo',
+                            itemsPerPage: 10,
+                            currentPage: page }">
+                    <td>{{reclamo.id_reclamo}}</td>
+                    <td>{{reclamo.nombre}}</td>
+                    <td>{{reclamo.paciente}}</td>
+                    <td>{{reclamo.moneda}}. {{convertir(reclamo.valor_reclamo)}}</td>
+                    <td>{{reclamo.fecha}}</td>
+                    <td>{{reclamo.estado}}</td>
+                    <td title="ver reclamo" ><a [routerLink]="['/report/', reclamo.id_reclamo]" class=".bg1" target="_blank" ><fa-icon [icon]="faEye"></fa-icon></a></td>
+                    <td  *ngIf="reclamo.id_estado==1"></td>
+                    <td  *ngIf="reclamo.id_estado==2"></td>
+                    <td  *ngIf="reclamo.id_estado==3"><u (click)="modalReembolso(modalVer, reclamo.id_reclamo)">Ver reembolso</u></td>
+                </tr>
+            </tbody>
+        </table>
+        <pagination-controls 
+        id="foo"
+        (pageChange)="page = ($event)"
+        previousLabel="Anterior"
+        nextLabel="Siguiente">
+        </pagination-controls>
+    </div>
+</div>
+
+<!-- Modal ver reembolso -->
+<ng-template #modalVer let-modal>
+    <div class="modal-header" style="background-color: rgb(36, 105, 207);">
+      <h1 class="modal-title" id="modal-basic-title" style="color: #fff">Reembolso</h1>
+      <button  type="button" class="btn close" (click)="modal.close('Cerrar')" aria-label="Close">
+        <div aria-hidden="true">&times;</div>
+      </button>
+    </div>
+    <div class="modal-body">
+        <table>
+          <tbody>
+            <tr>
+              <td><b>Total Cubierto</b></td>
+              <td>{{convertir(factura.total_cubierto)}}</td>
+            <tr>
+              <td>(-) Deducible</td>
+              <td>{{convertir(factura.deducible)}}</td>
+            </tr> 
+            <tr>  
+              <td>(-) Coaseguro</td>
+              <td>{{convertir(factura.coaseguro)}}</td>
+            <tr>
+              <td><hr></td>
+              <td><hr></td>
+            </tr>
+            <tr>
+              <td><b>Total a Pagar</b></td>
+              <td>{{convertir(factura.total_a_pagar)}}</td>
+            </tr>    
+          </tbody>
+          <br>
+          <div>
+            <h6>{{factura.fecha}}</h6>
+            <h4><b>OBSERVACIONES</b></h4>
+            <p>{{factura.observaciones}}</p>
+          </div>
+        </table>
+    </div>
+    <div class="modal-footer">
+      <button id="cancelar" class="btn btn-secondary"  (click)="modal.close('Cerrar')">Cancelar</button>
+    </div>
+  </ng-template>
+

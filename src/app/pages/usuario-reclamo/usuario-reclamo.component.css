@@ -1,0 +1,81 @@
+table{
+    width: max-content;
+}
+
+input{
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 2px solid #326535;
+    background-color: none;
+    font-family: montse-ligth;
+    color: rgb(56, 53, 53);
+    margin-right: 10px;
+    margin-top: 10px;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+}
+
+.reclamo{
+    width: 1240px;
+    height: 1204px;
+    font-size: 20px;
+}
+
+.encabezado{
+    width: 100%;
+    position: relative;
+    top: 0;
+}
+
+.pie{
+    width: 1240px;
+    position:fixed;
+    bottom: 0;
+    left: 0;
+}
+
+.mensaje{
+    margin-left: 7%;
+}
+
+
+.firma{
+    position:fixed;
+    bottom: 10%;
+    margin-left: 7%;
+}
+
+.nuevo{
+    background-color:white;
+}
+
+.enviado{
+    background-color: thistle ;
+}
+
+.completo{
+    background-color: rgb(151, 148, 151) ;
+}
+u{
+    color: blue;
+}
+
+select{
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 2px solid #326535;
+    background-color: none;
+    color: black;
+    font-size: 14px;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+    margin-right: 10px;
+}

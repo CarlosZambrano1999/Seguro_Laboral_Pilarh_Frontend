@@ -171,3 +171,20 @@ footer > button:hover{
 fa-icon{
     margin-left: 5px;
 }
+
+.correo{
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 2px solid #326535;
+    background-color: none;
+    color: black;
+    width:50%;
+    font-size: 14px;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+    margin-left: 10px;
+}

@@ -13,7 +13,7 @@
             <button  [ngClass]="{'disabled': sesion.invalid, 'enabled': sesion.valid}" class="btn ingresar" (click)="login()">Ingresar</button>        
         </form>
         <footer>
-            <button>Consultar</button>
+            <button (click)="openModal(modalConsultar)">Consultar</button>
         </footer>
     </div>
 
@@ -21,3 +21,23 @@
         <h6> © {{this.anio}} - PILARH-OPDF Seguro de empleados</h6> 
     </footer>
 </body>
+
+<!-- Modal Consultar -->
+<ng-template #modalConsultar let-modal>
+    <div class="modal-header" style="background-color: rgb(36, 105, 207);">
+      <h3 class="modal-title" id="modal-basic-title" style="color: #fff">Consulta de reclamos</h3>
+      <button  type="button"  (click)="modal.close('Cerrar')" aria-label="Close">
+        <div aria-hidden="true">&times;</div>
+      </button>
+    </div>
+    <div class="modal-body">
+      <h5><b>Ingrese su correo y haga clic en Consultar</b></h5>
+      <br>
+      <div><b>Ingrese su correo:  </b><input class="correo" [formControl]="correo" type="text" placeholder="ejm jperezpilarh-opdf.org"></div><br>
+      <p>Al dar click en consultar revise su correo por favor</p>
+    </div>
+    <div class="modal-footer">
+      <button id="cancelar" class="btn btn-secondary"  (click)="modal.close('Cerrar')">Cancelar</button>
+      <button [ngClass]="{'disabled': correo.invalid, 'enabled': correo.valid  }" id="principal" class="btn btn-primary" (click)="consultar()" >Consultar</button><br>
+    </div>
+  </ng-template>

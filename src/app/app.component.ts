@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Seguro_Laboral_Pilarh_Frontend';
+  title = 'Seguro Laboral Pilarh Empleados';
 }
