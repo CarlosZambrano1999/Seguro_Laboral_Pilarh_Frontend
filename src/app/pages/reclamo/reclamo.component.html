@@ -38,12 +38,18 @@
                 </select>
                 <input class="col-2" type="text" placeholder="Número" formControlName="numero" >
                 <input class="col-2" type="text" placeholder="Descripcion" formControlName="descripcion">
+            </div> <br>
+            <div class="row" [formGroup]="monetarios">
                 <input class="col-2" type="number" placeholder="Valor" formControlName="valor" >
+                <select class="col-2" formControlName="moneda" >
+                    <option value="" selected>Moneda</option>
+                    <option *ngFor="let moneda of monedas" value="{{moneda.id_moneda}}"> {{moneda.moneda}}</option>
+                </select>
                 <button class="col-2 btn btn-success" (click)="addDocMoney()">Agregar</button>
             </div> <br>
             <div *ngIf="this.doc_money.length>0">
                 <div *ngFor="let doc_m of doc_money; let i = index">
-                    1 <h6 *ngIf="this.doc_m.tipo==1">Recibo</h6> <h6 *ngIf="this.doc_m.tipo==2">Factura</h6> N° {{doc_m.numero}} {{doc_m.descripcion}} L {{doc_m.valor}} <fa-icon (click)="deleteMonetario(i)" [icon]="faDel" ></fa-icon> 
+                    1 <h6 *ngIf="this.doc_m.tipo==1">Recibo</h6> <h6 *ngIf="this.doc_m.tipo==2">Factura</h6> N° {{doc_m.numero}} {{doc_m.descripcion}} {{convertirMoneda(doc_m.moneda)}} {{doc_m.valor}} <fa-icon (click)="deleteMonetario(i)" [icon]="faDel" ></fa-icon> 
                 </div>               
             </div>
         </div>

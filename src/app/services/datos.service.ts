@@ -21,4 +21,14 @@ export class DatosService {
   obtenerTipos():Observable<any>{
     return this.http.get(this.urlServer + '/estado/tipo', {});
   }
+
+  obtenerReclamos():Observable<any>{
+    return this.http.get(this.urlServer + '/reclamo/', {});
+  }
+
+  obtenerMonedas():Observable<any>{
+    return this.http.get(this.urlServer + '/estado/moneda', {});
+  }
+
+
 }

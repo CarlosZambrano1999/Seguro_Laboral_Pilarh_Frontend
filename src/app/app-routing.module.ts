@@ -8,6 +8,7 @@ import { AgenciasComponent } from './pages/empleados/agencias/agencias.component
 import { EmpleadosComponent } from './pages/empleados/empleados.component';
 import { UsuariosComponent } from './pages/empleados/usuarios/usuarios.component';
 import { HistorialComponent } from './pages/historial/historial.component';
+import { InformeComponent } from './pages/informe/informe.component';
 import { LoginComponent } from './pages/login/login.component';
 import { ReclamoComponent } from './pages/reclamo/reclamo.component';
 
@@ -20,6 +21,7 @@ const routes: Routes = [
     {path: 'users', component: UsuariosComponent, canActivate:[AuthGuard, AdminGuard], data:{title:'Seguros Afiliados'}},
   ]},
   {path: 'data', component: DatosComponent, canActivate:[AuthGuard, AdminGuard], data:{title:'Seguros Datos'}},
+  {path: 'report/:id_reclamo', component: InformeComponent, data:{title:'Detalles de Reclamo'}},
   {path: '', redirectTo: 'login', pathMatch: 'full' },
   {path: '**', redirectTo: 'login' }
 ];

@@ -1,0 +1,30 @@
+.reclamo{
+    width: 1240px;
+    height: 1204px;
+    font-size: 18px;
+    background-color: #fff;
+}
+
+.encabezado{
+    width: 100%;
+    position: relative;
+    top: 0;
+}
+
+.pie{
+    width: 1240px;
+    position:fixed;
+    bottom: 0;
+    left: 0;
+}
+
+.mensaje{
+    margin-left: 7%;
+}
+
+
+.firma{
+    position: fixed;
+    bottom: 10%;
+    margin-left: 7%;
+}

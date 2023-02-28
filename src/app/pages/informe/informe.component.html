@@ -1,0 +1,32 @@
+<div class="reclamo">
+    <img src="../../../assets/img/encabezado.jpg" alt="" class="encabezado">
+    <div class="mensaje">
+        <p>Santa Rosa de Copán, {{this.dia}} de {{this.mes}} del {{this.anio}}</p>
+        <br>
+        <p>{{aseguradora.titulo}}</p>
+        <p>{{aseguradora.empleado}}</p>
+        <p>{{aseguradora.cargo}}</p>
+        <p>{{aseguradora.aseguradora}}</p>
+        <p>{{aseguradora.lugar}}</p>
+        <br>
+        <p>Estimado {{aseguradora.aseguradora}}.</p>
+        <br>
+        <p>Adjunto a la presente le envío formulario de reclamaciones de gastos médicos, con toda su documentación soporte del siguiente asegurado:</p>
+        <p><b>Titular:</b> {{reclamo.nombre}}, póliza N. {{empresa.poliza}}, Certificado N. {{reclamo.certificado}}, cuyo valor del reclamo asciende a:  <b>{{reclamo.moneda}}. {{convertir(reclamo.valor_reclamo)}}</b></p><br>
+        <p><b>Paciente:</b> {{reclamo.paciente}}</p> <br>
+        <p>Documentos:</p>
+        <div *ngFor="let mon of monetarios;">
+            <b>     .</b> 1 {{mon.tipo}} N° {{mon.numero}} {{mon.descripcion}} {{mon.moneda}}. {{convertir(mon.valor)}}
+        </div>
+        <div *ngFor="let ref of referenciales">
+            <b>     .</b> {{ref.cantidad}} {{ref.descripcion}}
+         </div>
+    </div> 
+    <div class="firma">
+        <p>Lic. {{empresa.empleado}}</p>
+        <p>{{empresa.cargo}}</p>
+        <p><b>{{empresa.empresa}}</b></p>
+        <p>Cc. archivo</p>
+    </div>
+    <img src="../../../assets/img/pie.jpg" alt="" class="pie">
+</div>

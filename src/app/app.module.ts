@@ -17,6 +17,7 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
 import { AgenciasComponent } from './pages/empleados/agencias/agencias.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { UsuariosComponent } from './pages/empleados/usuarios/usuarios.component';
+import { InformeComponent } from './pages/informe/informe.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { UsuariosComponent } from './pages/empleados/usuarios/usuarios.component
     DatosComponent,
     SpinnerComponent,
     AgenciasComponent,
-    UsuariosComponent
+    UsuariosComponent,
+    InformeComponent
   ],
   imports: [BrowserModule,
     AppRoutingModule,

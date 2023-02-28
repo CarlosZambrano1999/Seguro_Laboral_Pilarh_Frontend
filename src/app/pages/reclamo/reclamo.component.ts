@@ -19,6 +19,7 @@ export class ReclamoComponent implements OnInit {
   empleados : any = [];
   pacientes : any = [];
   tipos : any = [];
+  monedas : any = [];
   doc_money : any = [];
   doc_referencial : any = [];
   resultados : boolean = true;
@@ -37,7 +38,8 @@ export class ReclamoComponent implements OnInit {
     tipo : new FormControl('', [Validators.required]),
     numero : new FormControl('', [Validators.required]),
     descripcion : new FormControl('', [Validators.required]),
-    valor : new FormControl('', [Validators.required])
+    valor : new FormControl('', [Validators.required]),
+    moneda : new FormControl('', [Validators.required])
   })
 
   referenciales = new FormGroup({
@@ -50,6 +52,7 @@ export class ReclamoComponent implements OnInit {
   ngOnInit(): void {
     this.obtenerAgencias();
     this.obtenerTipos();
+    this.obtenerMonedas();
   }
 
   //función para obtener Agencias
@@ -73,6 +76,17 @@ export class ReclamoComponent implements OnInit {
     this.datosService.obtenerTipos().subscribe( res=>{
       try {
         this.tipos = res.data;
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  }
+
+  //función para obtener monedas
+  obtenerMonedas(){
+    this.datosService.obtenerMonedas().subscribe( res=>{
+      try {
+        this.monedas = res.data;
       } catch (error) {
         console.log(error);
       }
@@ -120,6 +134,12 @@ export class ReclamoComponent implements OnInit {
   deleteMonetario(i: any){
     this.doc_money.splice(i,1);
   }
+
+  convertirMoneda(id_moneda : any){
+      return this.monedas[id_moneda-1].moneda;
+  }
+
+ 
 
   procesar(){
     var header = {

@@ -1,2 +1,174 @@
 <app-navbar></app-navbar>
-<div class="cuerpo"> <p>historial works!</p> </div>
+
+<div *ngIf="!load">
+    <app-spinner></app-spinner>
+</div>
+
+<div *ngIf="load" class="cuerpo">
+    <div class="row" >
+        <div class="col-6"><h1>Reclamos</h1></div>
+    </div>
+    <div class="row" [formGroup]="filtro">
+        <div class="col-6"><input type="text" placeholder="Buscar por nombre" formControlName="nombre" >
+            <fa-icon [icon]="faSearch" (click)="filtrarReclamos()"> </fa-icon></div>
+        <div class="col-3">
+            Fecha inicial: <input type="date" formControlName="fecha_inicial" (change)="filtrarReclamos()">
+        </div>
+        <div class="col-3">
+            Fecha final: <input type="date" formControlName="fecha_final" (change)="filtrarReclamos()">
+        </div>
+    </div> <br>
+    <div *ngIf="resultados==false">
+        <br><br><br>
+        <h5>No hay datos disponibles</h5>
+    </div>
+    <div *ngIf="resultados==true">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Empleado</th>
+                <th scope="col">Paciente</th>
+                <th scope="col">Valor de reclamo</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Estado</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr [ngClass]="{'nuevo': reclamo.id_estado==1, 'enviado': reclamo.id_estado==2, 'completo': reclamo.id_estado==3}" 
+                *ngFor="let reclamo of reclamos
+                            | paginate: { id: 'foo',
+                            itemsPerPage: 10,
+                            currentPage: page }">
+                    <td>{{reclamo.id_reclamo}}</td>
+                    <td>{{reclamo.nombre}}</td>
+                    <td>{{reclamo.paciente}}</td>
+                    <td>{{reclamo.moneda}}. {{convertir(reclamo.valor_reclamo)}}</td>
+                    <td>{{reclamo.fecha}}</td>
+                    <td>{{reclamo.estado}}</td>
+                    <td title="ver reclamo" ><a [routerLink]="['/report/', reclamo.id_reclamo]" target="_blank" ><fa-icon [icon]="faEye"></fa-icon></a></td>
+                    <td *ngIf="reclamo.id_estado==1"> <u (click)="openModal(modalEnviar, reclamo.id_reclamo)">Enviar</u></td>
+                    <td *ngIf="reclamo.id_estado==2"> <u (click)="openModal(modalConfirmar, reclamo.id_reclamo)">Completar</u></td>
+                    <td  *ngIf="reclamo.id_estado==3"><u (click)="modalReembolso(modalVer, reclamo.id_reclamo)">Ver reembolso</u></td>
+                    <td title="Eliminar reclamo" (click)="openModal(modalInactivar, reclamo.id_reclamo)"  ><fa-icon [icon]="faDel"></fa-icon></td>
+                </tr>
+            </tbody>
+        </table>
+        <pagination-controls 
+        id="foo"
+        (pageChange)="page = ($event)"
+        previousLabel="Anterior"
+        nextLabel="Siguiente">
+        </pagination-controls>
+    </div>
+</div>
+
+<!-- Modal inhabilitar reclamo -->
+<ng-template #modalInactivar let-modal>
+    <div class="modal-header" style="background-color: #F00;">
+      <h1 class="modal-title" id="modal-basic-title" style="color: #fff">Inhabilitar Reclamo</h1>
+      <button  type="button" class="btn close" (click)="modal.close('Cerrar')" aria-label="Close">
+        <div aria-hidden="true">&times;</div>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>¿Está seguro que desea inhabilitar el reclamo?</p>
+    </div>
+    <div class="modal-footer">
+      <button id="cancelar" class="btn btn-secondary"  (click)="modal.close('Cerrar')">Cancelar</button>
+      <button id="principal" class="btn btn-primary"  (click)="inhabilitarReclamo()" >Inhabilitar</button><br>
+    </div>
+</ng-template>
+
+<!-- Modal enviar reclamo -->
+<ng-template #modalEnviar let-modal>
+    <div class="modal-header" style="background-color: rgb(36, 105, 207);">
+      <h1 class="modal-title" id="modal-basic-title" style="color: #fff">Enviar Reclamo</h1>
+      <button  type="button" class="btn close" (click)="modal.close('Cerrar')" aria-label="Close">
+        <div aria-hidden="true">&times;</div>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>¿Está seguro que desea enviar el reclamo?</p>
+    </div>
+    <div class="modal-footer">
+      <button id="cancelar" class="btn btn-secondary"  (click)="modal.close('Cerrar')">Cancelar</button>
+      <button id="principal" class="btn btn-primary"  (click)="enviarReclamo()" >Enviar</button><br>
+    </div>
+</ng-template>
+
+<!-- Modal confirmar reclamo -->
+<ng-template #modalConfirmar let-modal>
+  <div class="modal-header" style="background-color: rgb(36, 105, 207);">
+    <h1 class="modal-title" id="modal-basic-title" style="color: #fff">Reembolso de  Reclamo</h1>
+    <button  type="button" class="btn close" (click)="modal.close('Cerrar')" aria-label="Close">
+      <div aria-hidden="true">&times;</div>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div [formGroup]="reembolso">
+      <div class="row"><b class="col-4">Moneda: </b><select class="col-4" formControlName="moneda" >
+            <option value="" selected>Moneda</option>
+            <option *ngFor="let moneda of monedas" value="{{moneda.id_moneda}}"> {{moneda.moneda}}</option>
+        </select>
+      </div>
+      <div class="row"><b class="col-4">Total cubierto: </b> <input class="col-4" type="number" formControlName="total_cubierto" placeholder="Total cubierto"></div>
+      <div class="row"><b class="col-4">Deducible: </b> <input class="col-4" type="number" formControlName="deducible" placeholder="Deducible"></div>
+      <div class="row"><b class="col-4">Coaseguro: </b> <input class="col-4" type="number" formControlName="coaseguro" placeholder="Coaseguro"></div>
+      <div><b>Observaciones: </b> </div>
+      <div><textarea  cols="30" rows="5" formControlName="observaciones"></textarea></div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button id="cancelar" class="btn btn-secondary"  (click)="modal.close('Cerrar')">Cancelar</button>
+    <button [ngClass]="{'disabled': reembolso.invalid, 'enabled': reembolso.valid }" id="principal" class="btn btn-primary"  (click)="reembolsar()">Aceptar</button><br>
+  </div>
+</ng-template>
+
+<!-- Modal ver reembolso -->
+<ng-template #modalVer let-modal>
+  <div class="modal-header" style="background-color: rgb(36, 105, 207);">
+    <h1 class="modal-title" id="modal-basic-title" style="color: #fff">Reembolso</h1>
+    <button  type="button" class="btn close" (click)="modal.close('Cerrar')" aria-label="Close">
+      <div aria-hidden="true">&times;</div>
+    </button>
+  </div>
+  <div class="modal-body">
+      <table>
+        <tbody>
+          <tr>
+            <td><b>Total Cubierto</b></td>
+            <td>{{convertir(factura.total_cubierto)}}</td>
+          <tr>
+            <td>(-) Deducible</td>
+            <td>{{convertir(factura.deducible)}}</td>
+          </tr> 
+          <tr>  
+            <td>(-) Coaseguro</td>
+            <td>{{convertir(factura.coaseguro)}}</td>
+          <tr>
+            <td><hr></td>
+            <td><hr></td>
+          </tr>
+          <tr>
+            <td><b>Total a Pagar</b></td>
+            <td>{{convertir(factura.total_a_pagar)}}</td>
+          </tr>    
+        </tbody>
+        <br>
+        <div>
+          <h6>{{factura.fecha}}</h6>
+          <h4><b>OBSERVACIONES</b></h4>
+          <p>{{factura.observaciones}}</p>
+        </div>
+      </table>
+  </div>
+  <div class="modal-footer">
+    <button id="cancelar" class="btn btn-secondary"  (click)="modal.close('Cerrar')">Cancelar</button>
+    <button id="principal" class="btn btn-primary"  (click)="enviarReclamo()" >Enviar</button><br>
+  </div>
+</ng-template>
