@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from 'src/app/services/auth.service';
 import { DatosService } from 'src/app/services/datos.service';
@@ -25,6 +26,7 @@ export class ReclamoComponent implements OnInit {
   resultados : boolean = true;
   faDel = faTrash;
   urlServer = urlServer;
+  valorTotal : any = 0;
 
 
   /*Formularios */
@@ -47,12 +49,13 @@ export class ReclamoComponent implements OnInit {
     descripcion : new FormControl('', [Validators.required])
   })
   constructor(private empleadoService: EmpleadosService, private datosService: DatosService, 
-              private authService: AuthService, private http: HttpClient) { }
+              private authService: AuthService, private http: HttpClient, private route: Router ) { }
 
   ngOnInit(): void {
     this.obtenerAgencias();
     this.obtenerTipos();
     this.obtenerMonedas();
+    this.monetarios.get('moneda')?.setValue('1');
   }
 
   //función para obtener Agencias
@@ -104,6 +107,12 @@ export class ReclamoComponent implements OnInit {
     });
   }
 
+   //funcion para convertir
+   convertir(valor_reclamo : any){
+    const valor_final= parseFloat(valor_reclamo).toFixed(2);
+    return valor_final;
+  }
+
   //función para obtener pacientes
   obtenerPacientes(){
     this.empleadoService.obtenerPacientes(this.empleado.get('empleado')?.value).subscribe( res=>{
@@ -120,6 +129,15 @@ export class ReclamoComponent implements OnInit {
     this.monetarios.get('valor')?.setValue(valorP);
     this.doc_money.push(this.monetarios.value);
     this.monetarios.reset();
+    this.monetarios.get('moneda')?.setValue('1');
+    this.valorTotal = 0;
+    for(let i=0; i<this.doc_money.length; i++){
+      this.valorTotal= this.sumar(this.valorTotal, parseFloat(this.doc_money[i].valor))
+    }
+  }
+  sumar(a:number, b:number){
+    console.log(typeof(a), typeof(b))
+    return a+b;
   }
 
   addDocReferencial(){
@@ -136,10 +154,8 @@ export class ReclamoComponent implements OnInit {
   }
 
   convertirMoneda(id_moneda : any){
-      return this.monedas[id_moneda-1].moneda;
+    return this.monedas[id_moneda-1].moneda;
   }
-
- 
 
   procesar(){
     var header = {
@@ -160,6 +176,7 @@ export class ReclamoComponent implements OnInit {
             showConfirmButton: false,
             timer: 2000
           });
+          this.route.navigate(['/', 'record']);
         }else{
           const mensaje = res.message;
           Swal.fire({
