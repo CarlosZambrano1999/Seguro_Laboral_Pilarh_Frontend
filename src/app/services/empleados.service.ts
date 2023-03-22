@@ -54,4 +54,9 @@ export class EmpleadosService {
     return this.http.get(urlServer + `/empleado/datos/${correo}`, {});
   }
 
+  //obtenerParentesco
+  obtenerParentesco():Observable<any>{
+    return this.http.get(urlServer + `/empleado/parentesco`, {});
+  }
+
 }

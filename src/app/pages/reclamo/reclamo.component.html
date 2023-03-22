@@ -28,7 +28,18 @@
                     <option *ngFor="let pac of pacientes" value="{{pac.id_paciente}}"> {{pac.paciente}}</option>
                 </select>
             </div>
-        </div> <br>
+        </div>
+        <div class="row">
+            <div class="col-3"><h4><b>Tipo de Reclamo:</b></h4></div>
+            <div class="col-3">
+                <select  formControlName="tipo" >
+                    <option *ngFor="let tp of tipoReclamos" value="{{tp.id_tipo}}"> {{tp.tipo_reclamo}}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div *ngIf="this.empleado.valid">
         <div>
             <h4><b>Documentos Monetarios </b></h4>
             <div class="row" [formGroup]="monetarios">
@@ -42,33 +53,38 @@
             <div class="row" [formGroup]="monetarios">
                 <input class="col-2" type="number" placeholder="Valor" formControlName="valor" >
                 <select class="col-2" formControlName="moneda" >
-                    <option value="" selected>Moneda</option>
                     <option *ngFor="let moneda of monedas" value="{{moneda.id_moneda}}"> {{moneda.moneda}}</option>
                 </select>
-                <button class="col-2 btn btn-success" (click)="addDocMoney()">Agregar</button>
+                <button [ngClass]="{'disabled': monetarios.invalid , 'enabled': monetarios.valid}"  class="col-2 btn btn-success" (click)="addDocMoney()">Agregar</button>
             </div> <br>
             <div *ngIf="this.doc_money.length>0">
+                <br>
+                <div>
+                    Valor total = {{valorTotal}}
+                </div><br>
                 <div *ngFor="let doc_m of doc_money; let i = index">
                     1 <h6 *ngIf="this.doc_m.tipo==1">Recibo</h6> <h6 *ngIf="this.doc_m.tipo==2">Factura</h6> N° {{doc_m.numero}} {{doc_m.descripcion}} {{convertirMoneda(doc_m.moneda)}} {{doc_m.valor}} <fa-icon (click)="deleteMonetario(i)" [icon]="faDel" ></fa-icon> 
                 </div>               
             </div>
         </div>
-    </div> <br>
-    <div>
-        <h4><b>Documentos Referenciales </b></h4>
-        <div class="row" [formGroup]="referenciales">
-            <input class="col-2" type="number" placeholder="Cantidad" formControlName="cantidad" >
-            <input class="col-2" type="text" placeholder="Descripcion" formControlName="descripcion">
-            <button class="col-2 btn btn-success" (click)="addDocReferencial()">Agregar</button>
-        </div> <br>
-        <div *ngIf="this.doc_referencial.length>0">
-            <div *ngFor="let doc_r of doc_referencial; let i = index">
-                {{doc_r.cantidad}} {{doc_r.descripcion}} <fa-icon (click)="deleteReferencial(i)" [icon]="faDel" ></fa-icon> 
-            </div>               
-        </div>
-    </div><br>
-    <div style="text-align: center;">
-        <button [ngClass]="{'disabled': empleado.invalid || this.doc_money.length==0, 'enabled': empleado.valid && this.doc_referencial.length>0 }" class="btn btn-primary" (click)="procesar()">Procesar</button>
+        <div>
+            <h4><b>Documentos Referenciales </b></h4>
+            <div class="row" [formGroup]="referenciales">
+                <input class="col-2" type="number" placeholder="Cantidad" formControlName="cantidad" >
+                <input class="col-2" type="text" placeholder="Descripcion" formControlName="descripcion">
+                <button [ngClass]="{'disabled': referenciales.invalid , 'enabled': referenciales.valid}" class="col-2 btn btn-success" (click)="addDocReferencial()">Agregar</button>
+            </div> <br>
+            <div *ngIf="this.doc_referencial.length>0">
+                <div *ngFor="let doc_r of doc_referencial; let i = index">
+                    {{doc_r.cantidad}} {{doc_r.descripcion}} <fa-icon (click)="deleteReferencial(i)" [icon]="faDel" ></fa-icon> 
+                </div>               
+            </div>
+        </div><br>
+        <div style="text-align: center;">
+            <button [ngClass]="{'disabled': empleado.invalid || this.doc_money.length==0, 'enabled': empleado.valid && this.doc_referencial.length>0 }" class="btn btn-primary" (click)="procesar()">Procesar</button>
+        </div>    
     </div>
-
 </div>
+
+        
+    

@@ -30,5 +30,8 @@ export class DatosService {
     return this.http.get(this.urlServer + '/estado/moneda', {});
   }
 
+  obtenerTipoReclamo(){
+    return this.http.get(this.urlServer + `/datos/tipoReclamos/`, {});
+  }
 
 }

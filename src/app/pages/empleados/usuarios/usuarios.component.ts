@@ -25,6 +25,7 @@ export class UsuariosComponent implements OnInit {
   resultPacientes : boolean = true;
   datosEmpleado : any = {};
   habilitado : any = {};
+  parentescos : any = [];
   urlServer = urlServer;
   id_Empleado : string = '';
   edic : boolean = false;
@@ -59,14 +60,16 @@ export class UsuariosComponent implements OnInit {
   })
 
   newPaciente = new FormGroup({
-    nombre: new FormControl('', [Validators.required])
+    nombre: new FormControl('', [Validators.required]),
+    parentesco: new FormControl('', [Validators.required])
   })
 
 
   editPaciente = new FormGroup({
       id_usuario : new FormControl('', [Validators.required]),
       id_paciente : new FormControl('', [Validators.required]),
-      paciente : new FormControl('', [Validators.required]) 
+      paciente : new FormControl('', [Validators.required]) ,
+      parentesco: new FormControl('', [Validators.required])
     })
 
 
@@ -76,6 +79,7 @@ export class UsuariosComponent implements OnInit {
   ngOnInit(): void {
     this.obtenerAgencias();
     this.obtenerEmpleados();
+    this.obtenerParentescos();
     this.loading();
   }
 
@@ -85,6 +89,16 @@ export class UsuariosComponent implements OnInit {
     setTimeout(() => {
       this.load = true;
     }, 1500);
+  }
+
+  obtenerParentescos(){
+    this.empleadoService.obtenerParentesco().subscribe( res=>{
+      try {
+        this.parentescos = res.data;
+      } catch (error) {
+        console.log(error);
+      }
+    })
   }
 
   //Funcion para obtener las agencias
@@ -333,7 +347,6 @@ export class UsuariosComponent implements OnInit {
     this.id_Empleado=emp.id_usuario;
     this.obtenerPacientes(emp.id_usuario);
     this.modal.open(modal, {backdrop: 'static', keyboard: false});
-    console.log('Pac', this.pacientes);
   }
 
   //crear pacientes
@@ -354,7 +367,7 @@ export class UsuariosComponent implements OnInit {
             timer: 1500
           });
           this.obtenerPacientes(this.id_Empleado);
-          this.newEmpleado.reset();
+          this.newPaciente.reset();
         }else{
           const mensaje = res.message;
           Swal.fire({
@@ -412,6 +425,7 @@ export class UsuariosComponent implements OnInit {
     this.editPaciente.get('id_usuario')?.setValue(paciente.fk_id_usuario);
     this.editPaciente.get('paciente')?.setValue(paciente.paciente);
     this.editPaciente.get('id_paciente')?.setValue(paciente.id_paciente);
+    this.editPaciente.get('parentesco')?.setValue(paciente.id_parentesco);
     this.edic = true;
   }
 

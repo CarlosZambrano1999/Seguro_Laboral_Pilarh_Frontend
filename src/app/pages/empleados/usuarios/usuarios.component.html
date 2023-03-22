@@ -165,24 +165,37 @@
 
 <!-- Modal MostrarPacientes -->
 <ng-template #modalPacientes let-modal>
-    <div class="modal-header" style="background-color: #326535;">
-      <h1 class="modal-title" id="modal-basic-title" style="color: #fff">Pacientes</h1>
+    <div class="modal-header" style="background-color: #0d6efd;">
+      <h1 class="modal-title" id="modal-basic-title" style="color: #fff">Dependientes</h1>
       <button  type="button" class="btn close" (click)="modal.close('Cerrar')" aria-label="Close">
         <div aria-hidden="true">&times;</div>
       </button>
     </div>
     <div class="modal-body">
-        <div class="row" [formGroup]="newPaciente">
-            <div class="col-6"><input type="text" placeholder="Ejm Juan Perez" formControlName="nombre" ></div>
-            <div class="col-6"><button class="btn btn-primary" (click)="crearPaciente()">Agregar Paciente</button></div>
+        <div [formGroup]="newPaciente" class="marco">
+          <h3><b> Agregar Nuevo Dependiente</b></h3><br>
+          <div class="row">
+            <h6 class="col-6"> <b>Nombre del dependiente:</b></h6> <input class="col-6" type="text" placeholder="Ejm Juan Perez" formControlName="nombre" >
+          </div>
+          <div class="row">
+            <h6 class="col-6"> <b>Parentesco:</b></h6> <select class="col-6" formControlName="parentesco"><option *ngFor="let paren of parentescos" value="{{paren.id_parentesco}}"> {{paren.parentesco}}</option></select>
+          </div> <br>
+          <div style="text-align: end;">
+            <button [ngClass]="{'disabled': newPaciente.invalid , 'enabled': (newPaciente.valid)  }"  class="btn btn-primary" (click)="crearPaciente()">Agregar</button>
+          </div>          
         </div>
         <div *ngIf="resultPacientes==false">
-            No hay pacientes agregados
+            No hay Dependientes agregados
+        </div> <br>
+        <div>
+          <h3><b>Lista de Dependientes</b></h3>
         </div>
         <table *ngIf="resultPacientes==true" class="table table-striped">
             <thead>
             <tr>
                 <th scope="col">Nombre</th>
+                <th scope="col">Parentesco</th>
+                <th scope="col">Tipo</th>
                 <th scope="col"></th>
                 <th scope="col"></th>
             </tr>
@@ -190,13 +203,19 @@
             <tbody>
               <tr *ngFor="let pac of pacientes;">
                   <td>{{pac.paciente}}</td>
+                  <td>{{pac.parentesco}}</td>
+                  <td>{{pac.tipo}}</td>
                   <td title="Editar Paciente" (click)="mostrarEdit(pac)"><fa-icon [icon]="faEdit"></fa-icon></td>
                   <td><fa-icon [icon]="faDel" (click)="deletePaciente(pac)"></fa-icon></td>
               </tr>
             </tbody>
         </table>
-        <div *ngIf="edic==true" class="row" [formGroup]="editPaciente">
-          <input class="col-6" formControlName="paciente"> 
+        <div *ngIf="edic==true" class="row" [formGroup]="editPaciente" class="marco">
+          <div>
+            <h3><b>Editar dependiente</b></h3>
+          </div>
+          <input class="col-6" formControlName="paciente">
+          <select class="col-6" formControlName="parentesco"><option *ngFor="let paren of parentescos" value="{{paren.id_parentesco}}"> {{paren.parentesco}}</option></select>           
           <button class="col-6 btn btn-primary actualizar" (click)="editarPaciente()">Actualizar</button>
         </div>
     </div>
