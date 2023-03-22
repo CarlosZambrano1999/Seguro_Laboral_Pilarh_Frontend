@@ -30,6 +30,7 @@
                 <th scope="col">Empleado</th>
                 <th scope="col">Paciente</th>
                 <th scope="col">Valor de reclamo</th>
+                <th scope="col">Tipo de reclamo</th>
                 <th scope="col">Fecha</th>
                 <th scope="col">Estado</th>
                 <th scope="col"></th>
@@ -48,6 +49,7 @@
                     <td>{{reclamo.nombre}}</td>
                     <td>{{reclamo.paciente}}</td>
                     <td>{{reclamo.moneda}}. {{convertir(reclamo.valor_reclamo)}}</td>
+                    <td>{{reclamo.tipo_reclamo}}</td>
                     <td>{{reclamo.fecha}}</td>
                     <td>{{reclamo.estado}}</td>
                     <td title="ver reclamo" ><a [routerLink]="['/report/', reclamo.id_reclamo]" target="_blank" ><fa-icon [icon]="faEye"></fa-icon></a></td>

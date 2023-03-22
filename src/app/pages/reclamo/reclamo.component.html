@@ -29,6 +29,14 @@
                 </select>
             </div>
         </div>
+        <div class="row">
+            <div class="col-3"><h4><b>Tipo de Reclamo:</b></h4></div>
+            <div class="col-3">
+                <select  formControlName="tipo" >
+                    <option *ngFor="let tp of tipoReclamos" value="{{tp.id_tipo}}"> {{tp.tipo_reclamo}}</option>
+                </select>
+            </div>
+        </div>
     </div>
     <br>
     <div *ngIf="this.empleado.valid">

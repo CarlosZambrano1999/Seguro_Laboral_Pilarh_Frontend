@@ -29,4 +29,6 @@ export class ReclamosService {
   obtenerReclamosXUsuario(id_empleado: any){
     return this.http.get(this.urlServer + `/reclamo/obtenerUsuario/${id_empleado}`, {});
   }
+
+  
 }

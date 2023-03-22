@@ -21,6 +21,7 @@ export class ReclamoComponent implements OnInit {
   pacientes : any = [];
   tipos : any = [];
   monedas : any = [];
+  tipoReclamos : any = [];
   doc_money : any = [];
   doc_referencial : any = [];
   resultados : boolean = true;
@@ -28,12 +29,12 @@ export class ReclamoComponent implements OnInit {
   urlServer = urlServer;
   valorTotal : any = 0;
 
-
   /*Formularios */
   empleado = new FormGroup({
     agencia: new FormControl ('', [Validators.required]),
     empleado: new FormControl('', [Validators.required]),
-    paciente: new FormControl('', [Validators.required])
+    paciente: new FormControl('', [Validators.required]),
+    tipo: new FormControl('', [Validators.required])
   });
   
   monetarios = new FormGroup({
@@ -55,9 +56,19 @@ export class ReclamoComponent implements OnInit {
     this.obtenerAgencias();
     this.obtenerTipos();
     this.obtenerMonedas();
+    this.obtenerTipoReclamos();
     this.monetarios.get('moneda')?.setValue('1');
   }
 
+  obtenerTipoReclamos(){
+    this.datosService.obtenerTipoReclamo().subscribe( (res:any)=>{
+      try {
+        this.tipoReclamos = res.data;
+      } catch (error) {
+        console.log(error);
+      }
+    })
+  }
   //función para obtener Agencias
   obtenerAgencias(){
     this.empleadoService.obtenerAgencias().subscribe( res=>{
@@ -163,7 +174,7 @@ export class ReclamoComponent implements OnInit {
         .set('Authorization',  `Bearer ${this.authService.getToken()}`)
     }
     let id_reclamo = 0;
-    this.http.post(urlServer + `/reclamo/crearReclamo/${this.empleado.get('paciente')?.value}`, {}, header).subscribe( (res:any)=>{
+    this.http.post(urlServer + `/reclamo/crearReclamo/${this.empleado.get('paciente')?.value}/${this.empleado.get('tipo')?.value}`, {}, header).subscribe( (res:any)=>{
       try {
         if(res.message=='Successfully'){
           id_reclamo = res.data.id_reclamo;
@@ -176,7 +187,6 @@ export class ReclamoComponent implements OnInit {
             showConfirmButton: false,
             timer: 2000
           });
-          this.route.navigate(['/', 'record']);
         }else{
           const mensaje = res.message;
           Swal.fire({
@@ -246,6 +256,7 @@ export class ReclamoComponent implements OnInit {
               timer: 2000
             });
             this.doc_referencial = [];
+            this.route.navigate(['/', 'record']);
           }else{
             const mensaje = res.message;
             Swal.fire({
